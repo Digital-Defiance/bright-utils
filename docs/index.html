@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Bright Utils — color-enhanced, feature-extended BrightDate utilities: bfind, bping, btime, BSH, and unified % formatting across the ecosystem."
+      content="Bright Utils — color-enhanced, feature-extended BrightDate utilities: bfind, bping, btime, gpucap, BSH, and unified % formatting across the ecosystem."
     />
     <title>Bright Utils — BrightDate Ecosystem</title>
     <style>
@@ -473,7 +473,7 @@
 
       .pipeline {
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
         gap: 0.75rem;
         margin-top: 2.5rem;
       }
@@ -696,6 +696,10 @@
         color: #64c864;
       }
 
+      .out-warn {
+        color: var(--orange);
+      }
+
       .out-hop {
         color: var(--accent2);
       }
@@ -717,21 +721,21 @@
     </nav>
 
     <header class="hero">
-      <div class="hero-eyebrow">🛰️ find · ping · time · shell — one scalar</div>
+      <div class="hero-eyebrow">🛰️ find · ping · time · gpu · shell — one scalar</div>
       <h1>Bright <span>Utils</span></h1>
       <p class="hero-sub">
         The unified home for
         <a class="link" href="https://brightdate.org"><strong>BrightDate</strong></a>
-        utilities — file search, networking, timing, and the shell that ties
-        them together. Every tool speaks the same timezone-free decimal day
-        count since J2000.0. No translation step between your prompt, your
+        utilities — file search, networking, timing, GPU profiling, and the
+        shell that ties them together. Every tool speaks the same timezone-free
+        decimal day count since J2000.0. No translation step between your prompt, your
         logs, and your pipelines.
       </p>
       <p class="hero-sub">
         Each utility is a fork of a familiar GNU or system tool — not a thin
         wrapper, but a <strong style="color: var(--text-bright)">color-enhanced,
         feature-extended</strong> rebuild. BrightDate scalars, new predicates,
-        spacetime metrics, and TTY-aware color output — while
+        spacetime metrics, GPU/CPU/memory profiling, and TTY-aware color output — while
         <code>-printf</code>, <code>-f</code>, and piped output stay plain for
         scripts.
       </p>
@@ -744,7 +748,7 @@
         </div>
         <div class="terminal-body">
           <!-- prettier-ignore -->
-          <div class="cmd-line"><span class="cmt"># one scalar from shell prompt → file search → timing → network probe</span>
+          <div class="cmd-line"><span class="cmt"># shell → files → timing → network → GPU/CPU/memory</span>
 <span class="prompt">$</span><span class="cmd"> now=$BRIGHTEPOCH</span>
 <span class="prompt">$</span><span class="cmd"> bfind . -after $now -name '*.rs' -printf '%Wt %p\n' | head -2</span>
 <span class="out"><span class="out-bd-int">9628</span><span class="out-bd-frac">.197104</span> <span class="out-bd-path">./crates/btime/src/format.rs</span></span>
@@ -753,7 +757,8 @@
 <span class="prompt">$</span><span class="cmd"> btime -f '%Wt %dE md' cargo test -q</span>
 <span class="out"><span class="out-bd-int">9628</span><span class="out-bd-frac">.198441</span> 0.004861 md</span>
 
-<span class="prompt">$</span><span class="cmd"> bping --quiet google.com 2>/dev/null; echo "rtt md line above ↑"</span></div>
+<span class="prompt">$</span><span class="cmd"> gpucap -f '%gA,%gP,%uA,%e,%Ws,%Wt' ffmpeg -i in.mp4 out.mp4</span>
+<span class="out">12.3,45.6,8.1,1.23,9628.198441000,9628.199674000</span></div>
         </div>
       </div>
 
@@ -821,6 +826,14 @@
               <code>btraceroute</code>, <code>bmtr</code>, <code>baudit</code>
             </p>
           </div>
+          <div class="pipeline-step">
+            <div class="step-num">Layer 5</div>
+            <h3>gpucap</h3>
+            <p>
+              <code>gpucap</code> wraps any command — GPU, CPU, unified memory
+              on Apple Silicon; <code>gpuexercise</code> subcommand
+            </p>
+          </div>
         </div>
       </div>
     </section>
@@ -831,8 +844,8 @@
         <h2>Color-enhanced. Feature-extended.</h2>
         <p>
           Bright Utils are not drop-in aliases. Each project forks a mature
-          upstream (GNU findutils, iputils, GNU time/date, zsh) and adds
-          BrightDate-native behavior <em>plus</em> interactive polish: semantic
+          upstream (GNU findutils, iputils, GNU time/date, zsh) or adds a
+          new tool (gpucap) and extends it with BrightDate-native behavior <em>plus</em> interactive polish: semantic
           color on TTYs, richer reports, and capabilities the stock tools never
           had. Machine output stays script-safe — color applies to human-facing
           reports; <code>-printf</code>, <code>-f</code>, and pipes remain
@@ -873,7 +886,7 @@
               </tbody>
             </table>
             <p style="margin-top: 1rem; font-size: 0.85rem">
-              Used by <code>bfind</code>, <code>btime</code>,
+              Used by <code>bfind</code>, <code>btime</code>, <code>gpucap</code>,
               <code>bping</code>, <code>btraceroute</code>, <code>bmtr</code>,
               <code>baudit</code>, and more. BrightDate integers, fractional
               parts, labels, and efficiency scores each get distinct hues so
@@ -902,6 +915,10 @@
                 <tr>
                   <td>time</td>
                   <td><code>%Wt</code>/<code>%Ws</code>, milliday durations, CPU heat colors</td>
+                </tr>
+                <tr>
+                  <td>time (GPU)</td>
+                  <td><code>gpucap</code> — GPU/CPU/memory avg &amp; peak, <code>%g*</code>/<code>%u*</code>/<code>%h*</code>, <code>gpuexercise</code></td>
                 </tr>
                 <tr>
                   <td>traceroute</td>
@@ -937,7 +954,12 @@
 
 <span class="prompt">$</span><span class="cmd"> bping --color=always -c 1 8.8.8.8 2>&1 | tail -4</span>
 <span class="out-label">geo distance          </span><span class="out-value">= 3.644</span> <span class="out-unit">mBM</span><span class="out-dim"> (~1092 km)</span>
-<span class="out-label">efficiency            </span><span class="out-value">= </span><span class="out-good">34.90%</span></div>
+<span class="out-label">efficiency            </span><span class="out-value">= </span><span class="out-good">34.90%</span>
+
+<span class="prompt">$</span><span class="cmd"> gpucap ffmpeg -i in.mp4 out.mp4</span><span class="cmt">  # colored GPU/CPU/memory report on stderr</span>
+<span class="out-label">gpu     </span><span class="out-value">avg 12.3%</span>  <span class="out-warn">peak 45.6%</span>
+<span class="out-label">cpu     </span><span class="out-value">avg  8.1%</span>  <span class="out-warn">peak 23.4%</span>
+<span class="out-label">memory  </span><span class="out-value">avg 52.0%</span>  <span class="out-warn">peak 55.1%</span></div>
           </div>
         </div>
 
@@ -1006,6 +1028,22 @@
               <li>Natural pipeline host for every <code>b*</code> binary</li>
             </ul>
           </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">🖥️</div>
+            <h3>gpucap</h3>
+            <div class="tag-row">
+              <span class="tag tag-color">--color</span>
+              <span class="tag tag-ext">Apple Silicon</span>
+            </div>
+            <ul class="extend-list">
+              <li>Wrap any command like <code>time(1)</code> — GPU, CPU, unified memory</li>
+              <li><code>-f</code> with <code>%gA</code>/<code>%gP</code>/<code>%uA</code>/<code>%hA</code> + <code>%Ws</code>/<code>%Wt</code></li>
+              <li><code>gpuexercise</code> subcommand — sustained Metal GPU load</li>
+              <li>Polls every 100&nbsp;ms (configurable); avg &amp; peak over run</li>
+              <li>macOS arm64 only — IOKit AGX metrics + Mach host stats</li>
+            </ul>
+          </div>
         </div>
       </div>
     </section>
@@ -1015,9 +1053,10 @@
         <div class="section-label">The Stack</div>
         <h2>What we built.</h2>
         <p>
-          Four projects, one scalar. Each renames GNU or system utilities with a
-          <code>b</code> prefix so they coexist with stock tools — then extends
-          them with BrightDate semantics, interactive color, and domain-specific
+          Five projects, one scalar. Each renames GNU or system utilities with a
+          <code>b</code> prefix (or adds a new tool like <code>gpucap</code>) so
+          they coexist with stock tools — then extends them with BrightDate
+          semantics, interactive color, and domain-specific
           features the originals never had. All share the same J2000.0 / TAI
           semantics from
           <a class="link" href="https://github.com/Digital-Defiance/brightdate-rust">brightdate-rust</a>.
@@ -1116,6 +1155,31 @@
           </div>
 
           <div class="feature-card">
+            <div class="feature-icon">🖥️</div>
+            <h3>gpucap</h3>
+            <p>
+              Run any command like <code>time(1)</code> and report GPU, CPU,
+              and unified memory on Apple Silicon. Colorized stderr reports;
+              <code>-f</code> format strings with BrightDate timestamps for
+              log correlation.
+            </p>
+            <div class="tag-row">
+              <span class="tag tag-color">--color</span>
+              <span class="tag tag-ext">gpuexercise</span>
+            </div>
+            <div class="tool-list">
+              gpucap · gpuexercise (subcommand)
+            </div>
+            <p class="card-links">
+              <a class="link" href="https://digital-defiance.github.io/gpucap/">gpucap docs</a>
+              ·
+              <a class="link" href="https://github.com/Digital-Defiance/gpucap">GitHub</a>
+              ·
+              <a class="link" href="https://crates.io/crates/gpucap">crates.io</a>
+            </p>
+          </div>
+
+          <div class="feature-card">
             <div class="feature-icon">📦</div>
             <h3>@brightchain/brightdate</h3>
             <p>
@@ -1138,7 +1202,7 @@
               whole stack with short names.
             </p>
             <pre style="margin-top: 0.75rem; font-size: 0.78rem"><code>brew tap digital-defiance/tap
-brew install bsh bright-findutils bright-iputils
+brew install bsh bright-findutils bright-iputils gpucap
 brew install bdate btime buptime bcal bwatch</code></pre>
           </div>
         </div>
@@ -1176,7 +1240,8 @@ brew install bdate btime buptime bcal bwatch</code></pre>
           BrightDate format characters across the ecosystem. Scalar semantics
           follow
           <a class="link" href="https://github.com/Digital-Defiance/brightdate-rust">brightdate-rust</a>
-          (TAI substrate, J2000.0 epoch, SI days). Full spec:
+          (TAI substrate, J2000.0 epoch, SI days). Utilization specifiers are
+          defined by <code>gpucap -f</code>. Full spec:
           <a class="link" href="https://github.com/Digital-Defiance/brightdate-rust/blob/main/FORMAT-SPEC.md">FORMAT-SPEC.md</a>.
         </p>
 
@@ -1192,7 +1257,7 @@ brew install bdate btime buptime bcal bwatch</code></pre>
               <tr>
                 <th>Specifier</th>
                 <th>bfind <code>-printf</code></th>
-                <th>btime <code>-f</code></th>
+                <th>btime / gpucap <code>-f</code></th>
               </tr>
             </thead>
             <tbody>
@@ -1353,6 +1418,11 @@ brew install bdate btime buptime bcal bwatch</code></pre>
                 <td>Multi-line, optional color</td>
               </tr>
               <tr>
+                <td>gpucap default report</td>
+                <td>1 d.p.</td>
+                <td>GPU/CPU/memory avg &amp; peak; color on stderr TTY</td>
+              </tr>
+              <tr>
                 <td>BSH TIMEFMT %d*</td>
                 <td>6 d.p. + md</td>
                 <td>Shell time keyword</td>
@@ -1402,6 +1472,38 @@ brew install bdate btime buptime bcal bwatch</code></pre>
         </div>
 
         <div class="format-section">
+          <span class="tier-badge">Tier F</span>
+          <h3>gpucap — utilization <code>-f</code> specifiers</h3>
+          <p>
+            <code>gpucap -f</code> / <code>GPUCAP_FORMAT</code> adds utilization
+            letters on top of BrightDate timing (tiers A–C). Percentages output
+            one decimal place, no <code>%</code> suffix. When <code>-f</code> is
+            set, output is always plain text — even with <code>--color=always</code>.
+          </p>
+          <table class="bd-table">
+            <thead>
+              <tr>
+                <th>Specifier</th>
+                <th>Meaning</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>%gA / %gP</td><td>GPU average / peak</td></tr>
+              <tr><td>%uA / %uP</td><td>CPU average / peak (system-wide)</td></tr>
+              <tr><td>%hA / %hP</td><td>Unified memory average / peak</td></tr>
+              <tr><td>%tG</td><td>Exercise target GPU % (<code>gpuexercise</code> only)</td></tr>
+              <tr><td>%Ws / %Wt</td><td>Command start / end wall time (9 d.p. BD)</td></tr>
+              <tr><td>%dE / %b</td><td>Elapsed millidays</td></tr>
+              <tr><td>%e / %E / %C / %x</td><td>Elapsed seconds, GNU elapsed, command line, exit status</td></tr>
+            </tbody>
+          </table>
+          <p style="margin-top: 1rem; font-size: 0.85rem">
+            Default machine format:
+            <code>%gA,%gP,%uA,%uP,%hA,%hP,%e,%Ws,%Wt\n</code>
+          </p>
+        </div>
+
+        <div class="format-section">
           <span class="tier-badge">Not unified</span>
           <h3>Intentionally different meanings</h3>
           <table class="bd-table">
@@ -1439,6 +1541,7 @@ brew install bdate btime buptime bcal bwatch</code></pre>
         <p style="margin-top: 2rem; font-size: 0.875rem">
           <strong style="color: var(--text-bright)">Implementation references:</strong>
           <code>crates/btime/src/format.rs</code> (timing),
+          <code>gpucap/src/format.rs</code> (GPU utilization),
           <code>bright-findutils/find/print.c</code> (files),
           <code>bsh/Src/jobs.c</code> (TIMEFMT).
         </p>
@@ -1463,8 +1566,8 @@ brew install bdate btime buptime bcal bwatch</code></pre>
             <div class="step-num">2</div>
             <div class="step-body">
               <h3>Install what you need</h3>
-              <pre><code># Shell + file tools + networking
-brew install bsh bright-findutils bright-iputils
+              <pre><code># Shell + file tools + networking + GPU (macOS arm64)
+brew install bsh bright-findutils bright-iputils gpucap
 
 # Rust CLI utilities
 brew install bdate btime buptime bcal bwatch</code></pre>
@@ -1473,6 +1576,8 @@ brew install bdate btime buptime bcal bwatch</code></pre>
                 <a class="link" href="https://github.com/Digital-Defiance/bright-iputils">bright-iputils</a>
                 is also available via PPA:
                 <code>ppa:digital-defiance/bright-iputils</code>.
+                <code>gpucap</code> is macOS Apple Silicon only (Homebrew or
+                <code>cargo install gpucap</code>).
               </p>
             </div>
           </div>
@@ -1484,7 +1589,8 @@ brew install bdate btime buptime bcal bwatch</code></pre>
               <pre><code>bdate                    # current BrightDate
 bfind ~ -maxdepth 1 -printf '%Wt %p\n' | head -3
 btime -f '%Wt %dE md' sleep 1
-bping -c 1 127.0.0.1</code></pre>
+bping -c 1 127.0.0.1
+gpucap -f '%gA,%uA,%e' sleep 0.1   # macOS Apple Silicon</code></pre>
             </div>
           </div>
         </div>
@@ -1494,6 +1600,7 @@ bping -c 1 127.0.0.1</code></pre>
           README and docs site:
           <a class="link" href="https://findutils.digitaldefiance.org">bright-findutils</a>,
           <a class="link" href="https://iputils.digitaldefiance.org">bright-iputils</a>,
+          <a class="link" href="https://digital-defiance.github.io/gpucap/">gpucap</a>,
           <a class="link" href="https://brightdate.org">brightdate-rust</a>,
           <a class="link" href="https://bsh.brightchain.org">BSH</a>.
         </p>
@@ -1511,6 +1618,7 @@ bping -c 1 127.0.0.1</code></pre>
         <a href="https://github.com/Digital-Defiance/brightdate-rust">brightdate-rust</a>
         <a href="https://github.com/Digital-Defiance/bright-findutils">bright-findutils</a>
         <a href="https://github.com/Digital-Defiance/bright-iputils">bright-iputils</a>
+        <a href="https://github.com/Digital-Defiance/gpucap">gpucap</a>
         <a href="https://github.com/Digital-Defiance/bsh">bsh</a>
         <a href="https://brightdate.org">BrightDate</a>
       </div>

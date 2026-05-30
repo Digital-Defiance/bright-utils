@@ -1,6 +1,6 @@
 # Bright Utils
 
-Documentation hub for the [BrightDate](https://brightdate.org) utility ecosystem — file search, networking, timing, and the shell that ties them together.
+Documentation hub for the [BrightDate](https://brightdate.org) utility ecosystem — file search, networking, timing, GPU profiling, and the shell that ties them together.
 
 **Live site:** [brightutils.digitaldefiance.org](https://brightutils.digitaldefiance.org)
 
@@ -8,7 +8,7 @@ Documentation hub for the [BrightDate](https://brightdate.org) utility ecosystem
 
 This repo is GitHub Pages only. The site lives in [`docs/index.html`](docs/index.html) and covers:
 
-- The full **Bright Utils** stack (BSH, brightdate-rust, bright-findutils, bright-iputils)
+- The full **Bright Utils** stack (BSH, brightdate-rust, bright-findutils, bright-iputils, gpucap)
 - Color-enhanced, feature-extended tooling
 - Unified [`%` format spec](https://github.com/Digital-Defiance/brightdate-rust/blob/main/FORMAT-SPEC.md) across the ecosystem
 - Install instructions via the [Homebrew tap](https://github.com/Digital-Defiance/homebrew-tap)
@@ -20,6 +20,7 @@ This repo is GitHub Pages only. The site lives in [`docs/index.html`](docs/index
 | [brightdate-rust](https://github.com/Digital-Defiance/brightdate-rust) | `bdate`, `btime`, `buptime`, `bcal`, `bwatch` |
 | [bright-findutils](https://github.com/Digital-Defiance/bright-findutils) | `bfind`, `blocate`, `bupdatedb`, `bxargs` |
 | [bright-iputils](https://github.com/Digital-Defiance/bright-iputils) | `bping`, `bclockdiff`, `btraceroute`, `bmtr`, `baudit` |
+| [gpucap](https://github.com/Digital-Defiance/gpucap) | GPU, CPU & unified memory on Apple Silicon — `gpuexercise` subcommand |
 | [bsh](https://github.com/Digital-Defiance/bsh) | BrightShell — zsh-compatible shell with BrightDate built in |
 
 Submodules in this repo mirror those projects for local reference.
