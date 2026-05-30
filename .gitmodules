@@ -1,0 +1,12 @@
+[submodule "bright-iputils"]
+	path = bright-iputils
+	url = https://github.com/Digital-Defiance/bright-iputils.git
+[submodule "bright-findutils"]
+	path = bright-findutils
+	url = https://github.com/Digital-Defiance/bright-findutils.git
+[submodule "brightdate-rust"]
+	path = brightdate-rust
+	url = https://github.com/Digital-Defiance/brightdate-rust.git
+[submodule "bsh"]
+	path = bsh
+	url = https://github.com/Digital-Defiance/bsh.git
