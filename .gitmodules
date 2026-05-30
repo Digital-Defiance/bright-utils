@@ -10,3 +10,6 @@
 [submodule "bsh"]
 	path = bsh
 	url = https://github.com/Digital-Defiance/bsh.git
+[submodule "gpucap"]
+	path = gpucap
+	url = https://github.com/Digital-Defiance/gpucap.git
