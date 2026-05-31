@@ -758,8 +758,9 @@
 <span class="prompt">$</span><span class="cmd"> btime -f '%Wt %dE md' cargo test -q</span>
 <span class="out"><span class="out-bd-int">9628</span><span class="out-bd-frac">.198441</span> 0.004861 md</span>
 
-<span class="prompt">$</span><span class="cmd"> bgpucap -f '%gA,%gP,%uA,%e,%Ws,%Wt' ffmpeg -i in.mp4 out.mp4</span>
-<span class="out">12.3,45.6,8.1,1.23,9628.198441000,9628.199674000</span></div>
+<span class="prompt">$</span><span class="cmd"> bgpucap -f json --metrics basic sleep 1 > report.json</span>
+<span class="prompt">$</span><span class="cmd"> bgpucap compare before.json after.json</span>
+<span class="out-label">gpu     </span><span class="out-value">     10.0</span>      <span class="out-value">30.0</span>      <span class="out-good">+20.0</span></div>
         </div>
       </div>
 
@@ -833,8 +834,8 @@
             <h3>bgpucap</h3>
             <p>
               <code>bgpucap</code> wraps any command — GPU, CPU, unified memory
-              on Apple Silicon; <code>gpuexercise</code> subcommand (crate:
-              <code>gpucap</code>)
+              on Apple Silicon; <code>gpuexercise</code>, <code>watch</code>,
+              <code>compare</code> subcommands (crate: <code>gpucap</code>)
             </p>
           </div>
         </div>
@@ -921,7 +922,7 @@
                 </tr>
                 <tr>
                   <td>time (GPU)</td>
-                  <td><code>bgpucap</code> — GPU/CPU/memory avg &amp; peak, <code>%g*</code>/<code>%u*</code>/<code>%h*</code>, <code>gpuexercise</code></td>
+                  <td><code>bgpucap</code> — GPU/CPU/memory avg &amp; peak, <code>-f json</code>, <code>watch</code>, <code>compare</code>, <code>gpuexercise</code></td>
                 </tr>
                 <tr>
                   <td>traceroute</td>
@@ -1042,9 +1043,11 @@
             <ul class="extend-list">
               <li>Command <code>bgpucap</code>; crate <code>gpucap</code> on crates.io</li>
               <li>Wrap any command like <code>time(1)</code> — GPU, CPU, unified memory</li>
-              <li><code>-f</code> with <code>%gA</code>/<code>%gP</code>/<code>%uA</code>/<code>%hA</code> + <code>%Ws</code>/<code>%Wt</code></li>
-              <li><code>gpuexercise</code> subcommand — sustained Metal GPU load</li>
-              <li>Polls every 100&nbsp;ms (configurable); avg &amp; peak over run</li>
+              <li><code>--metrics</code> / <code>--list-metrics</code> — filter output; <code>basic</code> skips extended IOReport</li>
+              <li><code>-f json</code> on stdout; <code>compare</code> diffs two JSON reports (common metrics only)</li>
+              <li><code>watch</code> — continuous sampling; NDJSON live lines with <code>-f json</code></li>
+              <li><code>gpuexercise</code> — Metal load with <code>best-effort</code> / <code>load</code> / <code>sample</code> modes</li>
+              <li><code>--pid</code>, <code>--no-track-gpu</code> — per-process GPU via IORegistry</li>
               <li>macOS arm64 only — IOKit AGX metrics + Mach host stats</li>
             </ul>
           </div>
@@ -1165,15 +1168,15 @@
             <p>
               Run any command like <code>time(1)</code> and report GPU, CPU,
               and unified memory on Apple Silicon. Colorized stderr reports;
-              <code>-f</code> format strings with BrightDate timestamps for
-              log correlation. Crate: <code>gpucap</code>.
+              <code>-f json</code> on stdout; <code>watch</code> and
+              <code>compare</code> subcommands. Crate: <code>gpucap</code>.
             </p>
             <div class="tag-row">
               <span class="tag tag-color">--color</span>
-              <span class="tag tag-ext">gpuexercise</span>
+              <span class="tag tag-ext">watch · compare</span>
             </div>
             <div class="tool-list">
-              bgpucap · gpuexercise (subcommand) · man bgpucap
+              bgpucap · watch · compare · gpuexercise · man bgpucap
             </div>
             <p class="card-links">
               <a class="link" href="https://digital-defiance.github.io/gpucap/">bgpucap docs</a>
@@ -1485,9 +1488,11 @@ brew install bdate btime buptime bcal bwatch</code></pre>
           <p>
             <code>bgpucap -f</code> / <code>BGPUCAP_FORMAT</code> adds utilization
             letters on top of BrightDate timing (tiers A–C). (<code>GPUCAP_FORMAT</code>
-            still accepted.) Percentages output
-            one decimal place, no <code>%</code> suffix. When <code>-f</code> is
-            set, output is always plain text — even with <code>--color=always</code>.
+            still accepted.) Use <code>-f json</code> for structured output on stdout
+            (respects <code>--metrics</code>). Percentages output one decimal place,
+            no <code>%</code> suffix. When <code>-f</code> is set (except
+            <code>json</code>), output is plain text — even with
+            <code>--color=always</code>.
           </p>
           <table class="bd-table">
             <thead>
@@ -1600,7 +1605,9 @@ brew install bdate btime buptime bcal bwatch</code></pre>
 bfind ~ -maxdepth 1 -printf '%Wt %p\n' | head -3
 btime -f '%Wt %dE md' sleep 1
 bping -c 1 127.0.0.1
-bgpucap -f '%gA,%uA,%e' sleep 0.1   # macOS Apple Silicon</code></pre>
+bgpucap -f '%gA,%uA,%e' sleep 0.1   # macOS Apple Silicon
+bgpucap watch -n 5                  # continuous sampling
+bgpucap compare before.json after.json</code></pre>
             </div>
           </div>
         </div>
