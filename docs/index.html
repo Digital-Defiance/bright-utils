@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Bright Utils — color-enhanced, feature-extended BrightDate utilities: bfind, bping, btime, gpucap, BSH, and unified % formatting across the ecosystem."
+      content="Bright Utils — color-enhanced, feature-extended BrightDate utilities: bfind, bping, btime, bgpucap, BSH, and unified % formatting across the ecosystem."
     />
     <title>Bright Utils — BrightDate Ecosystem</title>
     <style>
@@ -732,7 +732,8 @@
         logs, and your pipelines.
       </p>
       <p class="hero-sub">
-        Each utility is a fork of a familiar GNU or system tool — not a thin
+        Each utility uses a <code>b</code> prefix for <strong style="color: var(--text-bright)">Bright</strong>
+        (like <code>btime</code>, <code>bfind</code>, <code>bgpucap</code>) — a fork of a familiar GNU or system tool, not a thin
         wrapper, but a <strong style="color: var(--text-bright)">color-enhanced,
         feature-extended</strong> rebuild. BrightDate scalars, new predicates,
         spacetime metrics, GPU/CPU/memory profiling, and TTY-aware color output — while
@@ -757,7 +758,7 @@
 <span class="prompt">$</span><span class="cmd"> btime -f '%Wt %dE md' cargo test -q</span>
 <span class="out"><span class="out-bd-int">9628</span><span class="out-bd-frac">.198441</span> 0.004861 md</span>
 
-<span class="prompt">$</span><span class="cmd"> gpucap -f '%gA,%gP,%uA,%e,%Ws,%Wt' ffmpeg -i in.mp4 out.mp4</span>
+<span class="prompt">$</span><span class="cmd"> bgpucap -f '%gA,%gP,%uA,%e,%Ws,%Wt' ffmpeg -i in.mp4 out.mp4</span>
 <span class="out">12.3,45.6,8.1,1.23,9628.198441000,9628.199674000</span></div>
         </div>
       </div>
@@ -766,8 +767,9 @@
         <a class="btn btn-primary" href="#enhanced">Color &amp; extensions →</a>
         <a class="btn btn-ghost" href="#tools">All tools</a>
         <a class="btn btn-ghost" href="#format">Format spec</a>
+        <a class="btn btn-ghost" href="https://gpucap.digitaldefiance.org">bgpucap</a>
         <a class="btn btn-ghost" href="https://brightdate.org">BrightDate.org</a>
-        <a class="btn btn-ghost" href="https://bsh.brightchain.org">BSH</a>
+        <a class="btn btn-ghost" href="https://bsh.digitaldefiance.org">BSH</a>
       </div>
     </header>
 
@@ -828,10 +830,11 @@
           </div>
           <div class="pipeline-step">
             <div class="step-num">Layer 5</div>
-            <h3>gpucap</h3>
+            <h3>bgpucap</h3>
             <p>
-              <code>gpucap</code> wraps any command — GPU, CPU, unified memory
-              on Apple Silicon; <code>gpuexercise</code> subcommand
+              <code>bgpucap</code> wraps any command — GPU, CPU, unified memory
+              on Apple Silicon; <code>gpuexercise</code> subcommand (crate:
+              <code>gpucap</code>)
             </p>
           </div>
         </div>
@@ -845,7 +848,7 @@
         <p>
           Bright Utils are not drop-in aliases. Each project forks a mature
           upstream (GNU findutils, iputils, GNU time/date, zsh) or adds a
-          new tool (gpucap) and extends it with BrightDate-native behavior <em>plus</em> interactive polish: semantic
+          new tool (<code>bgpucap</code>, crate <code>gpucap</code>) and extends it with BrightDate-native behavior <em>plus</em> interactive polish: semantic
           color on TTYs, richer reports, and capabilities the stock tools never
           had. Machine output stays script-safe — color applies to human-facing
           reports; <code>-printf</code>, <code>-f</code>, and pipes remain
@@ -886,7 +889,7 @@
               </tbody>
             </table>
             <p style="margin-top: 1rem; font-size: 0.85rem">
-              Used by <code>bfind</code>, <code>btime</code>, <code>gpucap</code>,
+              Used by <code>bfind</code>, <code>btime</code>, <code>bgpucap</code>,
               <code>bping</code>, <code>btraceroute</code>, <code>bmtr</code>,
               <code>baudit</code>, and more. BrightDate integers, fractional
               parts, labels, and efficiency scores each get distinct hues so
@@ -918,7 +921,7 @@
                 </tr>
                 <tr>
                   <td>time (GPU)</td>
-                  <td><code>gpucap</code> — GPU/CPU/memory avg &amp; peak, <code>%g*</code>/<code>%u*</code>/<code>%h*</code>, <code>gpuexercise</code></td>
+                  <td><code>bgpucap</code> — GPU/CPU/memory avg &amp; peak, <code>%g*</code>/<code>%u*</code>/<code>%h*</code>, <code>gpuexercise</code></td>
                 </tr>
                 <tr>
                   <td>traceroute</td>
@@ -956,7 +959,7 @@
 <span class="out-label">geo distance          </span><span class="out-value">= 3.644</span> <span class="out-unit">mBM</span><span class="out-dim"> (~1092 km)</span>
 <span class="out-label">efficiency            </span><span class="out-value">= </span><span class="out-good">34.90%</span>
 
-<span class="prompt">$</span><span class="cmd"> gpucap ffmpeg -i in.mp4 out.mp4</span><span class="cmt">  # colored GPU/CPU/memory report on stderr</span>
+<span class="prompt">$</span><span class="cmd"> bgpucap ffmpeg -i in.mp4 out.mp4</span><span class="cmt">  # colored GPU/CPU/memory report on stderr</span>
 <span class="out-label">gpu     </span><span class="out-value">avg 12.3%</span>  <span class="out-warn">peak 45.6%</span>
 <span class="out-label">cpu     </span><span class="out-value">avg  8.1%</span>  <span class="out-warn">peak 23.4%</span>
 <span class="out-label">memory  </span><span class="out-value">avg 52.0%</span>  <span class="out-warn">peak 55.1%</span></div>
@@ -1031,12 +1034,13 @@
 
           <div class="feature-card">
             <div class="feature-icon">🖥️</div>
-            <h3>gpucap</h3>
+            <h3>bgpucap</h3>
             <div class="tag-row">
               <span class="tag tag-color">--color</span>
               <span class="tag tag-ext">Apple Silicon</span>
             </div>
             <ul class="extend-list">
+              <li>Command <code>bgpucap</code>; crate <code>gpucap</code> on crates.io</li>
               <li>Wrap any command like <code>time(1)</code> — GPU, CPU, unified memory</li>
               <li><code>-f</code> with <code>%gA</code>/<code>%gP</code>/<code>%uA</code>/<code>%hA</code> + <code>%Ws</code>/<code>%Wt</code></li>
               <li><code>gpuexercise</code> subcommand — sustained Metal GPU load</li>
@@ -1054,7 +1058,8 @@
         <h2>What we built.</h2>
         <p>
           Five projects, one scalar. Each renames GNU or system utilities with a
-          <code>b</code> prefix (or adds a new tool like <code>gpucap</code>) so
+          <code>b</code> prefix for <strong style="color: var(--text-bright)">Bright</strong>
+          (or adds a new tool like <code>bgpucap</code>, crate <code>gpucap</code>) so
           they coexist with stock tools — then extends them with BrightDate
           semantics, interactive color, and domain-specific
           features the originals never had. All share the same J2000.0 / TAI
@@ -1080,7 +1085,7 @@
               $BRIGHTEPOCH · prompt %P · TIMEFMT %d*
             </div>
             <p class="card-links">
-              <a class="link" href="https://bsh.brightchain.org">bsh.brightchain.org</a>
+              <a class="link" href="https://bsh.digitaldefiance.org">bsh.digitaldefiance.org</a>
               ·
               <a class="link" href="https://github.com/Digital-Defiance/bsh">GitHub</a>
             </p>
@@ -1156,22 +1161,22 @@
 
           <div class="feature-card">
             <div class="feature-icon">🖥️</div>
-            <h3>gpucap</h3>
+            <h3>bgpucap</h3>
             <p>
               Run any command like <code>time(1)</code> and report GPU, CPU,
               and unified memory on Apple Silicon. Colorized stderr reports;
               <code>-f</code> format strings with BrightDate timestamps for
-              log correlation.
+              log correlation. Crate: <code>gpucap</code>.
             </p>
             <div class="tag-row">
               <span class="tag tag-color">--color</span>
               <span class="tag tag-ext">gpuexercise</span>
             </div>
             <div class="tool-list">
-              gpucap · gpuexercise (subcommand)
+              bgpucap · gpuexercise (subcommand) · man bgpucap
             </div>
             <p class="card-links">
-              <a class="link" href="https://digital-defiance.github.io/gpucap/">gpucap docs</a>
+              <a class="link" href="https://digital-defiance.github.io/gpucap/">bgpucap docs</a>
               ·
               <a class="link" href="https://github.com/Digital-Defiance/gpucap">GitHub</a>
               ·
@@ -1202,8 +1207,11 @@
               whole stack with short names.
             </p>
             <pre style="margin-top: 0.75rem; font-size: 0.78rem"><code>brew tap digital-defiance/tap
-brew install bsh bright-findutils bright-iputils gpucap
+brew install bsh bright-findutils bright-iputils bgpucap
 brew install bdate btime buptime bcal bwatch</code></pre>
+            <p style="margin-top: 0.5rem; font-size: 0.85rem">
+              Homebrew symlinks <code>gpucap</code> → <code>bgpucap</code> for backward compatibility.
+            </p>
           </div>
         </div>
 
@@ -1241,7 +1249,7 @@ brew install bdate btime buptime bcal bwatch</code></pre>
           follow
           <a class="link" href="https://github.com/Digital-Defiance/brightdate-rust">brightdate-rust</a>
           (TAI substrate, J2000.0 epoch, SI days). Utilization specifiers are
-          defined by <code>gpucap -f</code>. Full spec:
+          defined by <code>bgpucap -f</code>. Full spec:
           <a class="link" href="https://github.com/Digital-Defiance/brightdate-rust/blob/main/FORMAT-SPEC.md">FORMAT-SPEC.md</a>.
         </p>
 
@@ -1257,7 +1265,7 @@ brew install bdate btime buptime bcal bwatch</code></pre>
               <tr>
                 <th>Specifier</th>
                 <th>bfind <code>-printf</code></th>
-                <th>btime / gpucap <code>-f</code></th>
+                <th>btime / bgpucap <code>-f</code></th>
               </tr>
             </thead>
             <tbody>
@@ -1418,7 +1426,7 @@ brew install bdate btime buptime bcal bwatch</code></pre>
                 <td>Multi-line, optional color</td>
               </tr>
               <tr>
-                <td>gpucap default report</td>
+                <td>bgpucap default report</td>
                 <td>1 d.p.</td>
                 <td>GPU/CPU/memory avg &amp; peak; color on stderr TTY</td>
               </tr>
@@ -1473,10 +1481,11 @@ brew install bdate btime buptime bcal bwatch</code></pre>
 
         <div class="format-section">
           <span class="tier-badge">Tier F</span>
-          <h3>gpucap — utilization <code>-f</code> specifiers</h3>
+          <h3>bgpucap — utilization <code>-f</code> specifiers</h3>
           <p>
-            <code>gpucap -f</code> / <code>GPUCAP_FORMAT</code> adds utilization
-            letters on top of BrightDate timing (tiers A–C). Percentages output
+            <code>bgpucap -f</code> / <code>BGPUCAP_FORMAT</code> adds utilization
+            letters on top of BrightDate timing (tiers A–C). (<code>GPUCAP_FORMAT</code>
+            still accepted.) Percentages output
             one decimal place, no <code>%</code> suffix. When <code>-f</code> is
             set, output is always plain text — even with <code>--color=always</code>.
           </p>
@@ -1567,7 +1576,7 @@ brew install bdate btime buptime bcal bwatch</code></pre>
             <div class="step-body">
               <h3>Install what you need</h3>
               <pre><code># Shell + file tools + networking + GPU (macOS arm64)
-brew install bsh bright-findutils bright-iputils gpucap
+brew install bsh bright-findutils bright-iputils bgpucap
 
 # Rust CLI utilities
 brew install bdate btime buptime bcal bwatch</code></pre>
@@ -1576,8 +1585,9 @@ brew install bdate btime buptime bcal bwatch</code></pre>
                 <a class="link" href="https://github.com/Digital-Defiance/bright-iputils">bright-iputils</a>
                 is also available via PPA:
                 <code>ppa:digital-defiance/bright-iputils</code>.
-                <code>gpucap</code> is macOS Apple Silicon only (Homebrew or
-                <code>cargo install gpucap</code>).
+                <code>bgpucap</code> is macOS Apple Silicon only (Homebrew
+                <code>bgpucap</code> or <code>cargo install gpucap</code> →
+                executable <code>bgpucap</code>).
               </p>
             </div>
           </div>
@@ -1590,7 +1600,7 @@ brew install bdate btime buptime bcal bwatch</code></pre>
 bfind ~ -maxdepth 1 -printf '%Wt %p\n' | head -3
 btime -f '%Wt %dE md' sleep 1
 bping -c 1 127.0.0.1
-gpucap -f '%gA,%uA,%e' sleep 0.1   # macOS Apple Silicon</code></pre>
+bgpucap -f '%gA,%uA,%e' sleep 0.1   # macOS Apple Silicon</code></pre>
             </div>
           </div>
         </div>
@@ -1600,9 +1610,9 @@ gpucap -f '%gA,%uA,%e' sleep 0.1   # macOS Apple Silicon</code></pre>
           README and docs site:
           <a class="link" href="https://findutils.digitaldefiance.org">bright-findutils</a>,
           <a class="link" href="https://iputils.digitaldefiance.org">bright-iputils</a>,
-          <a class="link" href="https://digital-defiance.github.io/gpucap/">gpucap</a>,
+          <a class="link" href="https://gpucap.digitaldefiance.org">bgpucap</a>,
           <a class="link" href="https://brightdate.org">brightdate-rust</a>,
-          <a class="link" href="https://bsh.brightchain.org">BSH</a>.
+          <a class="link" href="https://bsh.digitaldefiance.org">BSH</a>.
         </p>
       </div>
     </section>
@@ -1618,7 +1628,7 @@ gpucap -f '%gA,%uA,%e' sleep 0.1   # macOS Apple Silicon</code></pre>
         <a href="https://github.com/Digital-Defiance/brightdate-rust">brightdate-rust</a>
         <a href="https://github.com/Digital-Defiance/bright-findutils">bright-findutils</a>
         <a href="https://github.com/Digital-Defiance/bright-iputils">bright-iputils</a>
-        <a href="https://github.com/Digital-Defiance/gpucap">gpucap</a>
+        <a href="https://github.com/Digital-Defiance/gpucap">bgpucap</a>
         <a href="https://github.com/Digital-Defiance/bsh">bsh</a>
         <a href="https://brightdate.org">BrightDate</a>
       </div>
